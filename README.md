@@ -1,0 +1,1 @@
+# NeuroHackademy 2026 curriculum
