@@ -1,0 +1,33 @@
+name: pixi-tutorial-example
+
+on:
+  push:
+    paths:
+      - "lsetiawan-pixi/example/**"
+      - ".github/workflows/pixi-tutorial-example.yml"
+  pull_request:
+    paths:
+      - "lsetiawan-pixi/example/**"
+      - ".github/workflows/pixi-tutorial-example.yml"
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pixi (locked install of the example environment)
+        uses: prefix-dev/setup-pixi@v0.10.0
+        with:
+          manifest-path: lsetiawan-pixi/example/pixi.toml
+          locked: true
+
+      - name: Reproduce the analysis
+        run: pixi run analyze
+        working-directory: lsetiawan-pixi/example
+
+      - name: Upload the figure
+        uses: actions/upload-artifact@v4
+        with:
+          name: pi-estimate
+          path: lsetiawan-pixi/example/pi-estimate.png
